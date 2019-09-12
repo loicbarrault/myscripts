@@ -1,0 +1,128 @@
+#!/usr/bin/perl
+
+use strict;
+use Cwd;
+use File::Basename;
+
+foreach my $m (`ls \| sort -k2n -tn`) {
+    chomp $m;
+    #print "m = $m\n";
+    #-h is available for symlink
+    #if(-l $m) {
+    #print "CMD: [ -h $m ] && echo 1\n";
+    if(`[ -h $m ] && echo 1`) {
+        #print "$m is symlink -> pass\n";
+        next;
+    }
+    #else { print "m ----------> $m\n"; }
+
+    if ( -d $m) {
+        my @l=`find -L $m -iname "tune*"`;
+        my $nb = scalar(@l);
+        chomp $nb;
+        if ( $nb > 0 ) {
+            print "------- $m : \n";
+            my $cdir = getcwd();
+            chdir $m ;
+
+	    #print STDERR "calling print_best_point\n";
+            &print_best_point();
+
+            chdir $cdir;
+            print "\n";
+        }
+        else
+        {
+            &print_best_point_in_dir($m);
+        }
+    }
+    elsif($m =~ /run.*mert.log/)
+    {
+        my $name=`basename $m`;
+        chomp $name;
+        print "---- $name: ";
+        #print `grep Best ./$m`;
+        my $out = `grep "Best" ./$m`;
+        my @tabout = split(/\s+/, $out);
+        print "$tabout[-1]\n";
+    }
+}
+
+sub print_best_point
+{
+    my @logs=`find -L . -iname "run*mert.log"`;
+    chomp @logs;
+    my @dirs = &getdirs(@logs);
+    #foreach my $dd (@dirs) { print "dd->$dd\n"; }
+
+    foreach my $i (@dirs) {
+        print "----------- $i : \n";
+
+        my $cdir = getcwd();
+        chdir $i ;
+        foreach my $j (`find -L ./ -iname "run*mert.log" \| /bin/sort -k2n -tn`)
+        {
+            my $name=`basename $j`;
+            chomp $name;
+            print "---- $name: ";
+            my $out = `grep Best ./$j`;
+            my @tabout = split(/\s+/, $out);
+            print "$tabout[-1]\n";
+        }
+        chdir $cdir;
+    } 
+}
+
+sub print_best_point_in_dir
+{
+    my @logs=`find -L @_[0] -iname "run*mert.log"`;
+    chomp @logs;
+    my @dirs = &getdirs(@logs);
+    #foreach my $dd (@dirs) { print "dd->$dd\n"; }
+
+    foreach my $i (@dirs) {
+        print "----------- $i : \n";
+        my $cdir = getcwd();
+        chdir $i ;
+
+        my @res = `find -L ./ -iname "run*mert.log"`;
+        chomp(@res);
+        foreach my $r (@res) { print "r=$r\n"; };
+        my @sorted = sort { substr($b,5,1) cmp substr($a,5,1)  } (@res);
+        #my @sorted = sort { $a <=> $b}  (@res);
+        #my $sorted = sort {  } (@res);
+        foreach my $r (@sorted) { print "sorted r=$r\n"; };
+        foreach my $j (@res)
+        {
+            my $name=`basename $j`;
+            chomp $name;
+            print "---- $name: ";
+            #print `grep Best ./$j`;
+            my $out = `grep Best ./$j`;
+            my @tabout = split(/\s+/, $out);
+            print "$tabout[-1]\n";
+        }
+        chdir $cdir;
+    } 
+}
+sub getdirs
+{
+    my @logs=@_;
+    my %dirs=();
+    
+    foreach my $l (@logs)
+    {
+        my ($d, $b, $e) = fileparse($l);
+        #print "** d=>$d<\n** b=>$b<\n** e=>$e<\n";
+        $dirs{$b}=1;
+    }
+
+    return sort keys %dirs;
+}
+
+sub by_counter_field {
+    my $aa = $a =~ /^(\d+)/ ? $1 : 0;
+    my $bb = $b =~ /^(\d+)/ ? $1 : 0;
+    $bb <=> $aa;
+}
+

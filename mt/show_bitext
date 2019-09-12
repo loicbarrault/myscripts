@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
+import argparse
+import gzip
+
+class open_file:
+
+    def __init__(self, fname, mode):
+        self.fname=fname
+        self.mode=mode
+    def __enter__(self):
+        if self.fname.endswith('.gz'):
+            f=gzip.open(self.fname, self.mode)
+        else:
+            f=open(self.fname, self.mode)
+        return f
+
+    def __exit__(self, type, value, traceback):
+        return isinstance(value, TypeError)
+
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(prog='nmt-train',
+                                     formatter_class=argparse.RawDescriptionHelpFormatter,
+                                     description="this script shows source and target sentence from a bitext.",
+                                     argument_default=argparse.SUPPRESS)
+
+
+    # Mandatory argument pointing to the source file
+    parser.add_argument('-s', '--source'        , help="Path to source language file",
+                                                  type=str, required=True)
+    # Mandatory argument pointing to the target file
+    parser.add_argument('-t', '--target'        , help="Path to target language file",
+                                                  type=str, required=True)
+
+    parser.add_argument('-v', '--verbose'       , help="Print additional info.",
+                                                  action="store_true", default=False)
+
+
+
+    ####################################
+    # Parse command-line arguments first
+    ####################################
+    cargs   = parser.parse_args()
+
+    # Pop config filename, verbose flag and extra
+    sfname  = cargs.__dict__.pop('source')
+    tfname  = cargs.__dict__.pop('target')
+    verbose = cargs.__dict__.pop('verbose')
+
+
+
+    i=0
+    with open_file(sfname, "rt") as sf, open_file(tfname, "rt") as tf:
+        key='a'
+        while key is not 'q':
+            sl=next(sf).strip()
+            tl=next(tf).strip()
+            print('-----------------------')
+            print("SRC[{0}]: {1}".format(i, sl))
+            print("TGT[{0}]: {1}".format(i, tl))
+            print()
+            key=input("Press a key for next sentence pair... q to quit")
+            i += 1
+
+
+
+
+
+

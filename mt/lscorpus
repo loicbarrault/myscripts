@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+import sys
+from collections import Counter
+
+if __name__ == '__main__':
+    # Assumes a tokenized file
+    char_len = 0
+    word_lens = []
+    words = []
+
+    with open(sys.argv[1], 'r') as f:
+        for line in f:
+            line = line.strip()
+            char_len += len(line)
+            wrds = line.split(' ')
+            words.extend(wrds)
+            word_lens.append(len(wrds))
+
+    n_sents = len(word_lens)
+
+    print('Number of sentences: %d' % n_sents)
+    print('Average # of words: %d' % (sum(word_lens) // n_sents))
+    print('Average # of chars: %d' % (char_len // n_sents))
+    
+    histogram = Counter(word_lens).most_common()
+    w_hist = Counter(words).most_common(20)
+    print(w_hist)
+    cumul = 0.
+    for l, cnt in histogram:
+        percent = 100 * (cnt / n_sents)
+        cumul += percent
+        print('%3d-word => %3.3f%% (%4d sentences)\t(Cumulative coverage: %3.3f%%)' % (l, percent, cnt, cumul))
+        if cumul > 90.:
+            break
+
+

@@ -1,0 +1,98 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]; then
+    echo "Usage: $0 -c CONFIG_FILE -n #SEEDS -m MEM -t WALLTIME -g #GPUs -j JOBNAME"
+    echo "          -w NODE: run on a specific node"
+    echo "          -d: only print command"
+    exit
+fi
+
+CMD="sbatch"
+GPU="gpu"
+PART="gpu"
+MEM="10G"
+TIME="12:00:00"
+N_SEEDS=1
+while [[ $# -gt 0 ]]; do
+  key="$1"
+
+  case $key in
+    -c|-C|--conf)
+      CONF="$2"
+      shift 2
+      ;;
+    -n|--nseeds)
+      N_SEEDS="$2"
+      shift 2
+      ;;
+    -m|--mem)
+      MEM="${2}G"
+      shift 2
+      ;;
+    -t|--time)
+      TIME="$2"
+      shift 2
+      ;;
+    -g|--gpu)
+      GPU="gpu:$2"
+      shift 2
+      ;;
+    -d|--dry-run)
+      CMD="cat"
+      shift 1
+      ;;
+    -j|--jobname)
+      JOBNAME="$2"
+      shift 2
+      ;;
+    -w|--node)
+      NODE="$2"
+      shift 2
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if [[ ! -z $NODE ]]; then
+  CMD="${CMD} -w $NODE"
+fi
+
+JOBNAME=${JOBNAME:-`basename ${CONF/.conf/}`}
+
+# INIT RNG WITH TIME
+RANDOM=`date +%s`
+
+for i in `seq -f '%02g' $N_SEEDS`; do
+  if [[ $N_SEEDS -gt 1 ]]; then
+    SUBJOBNAME="${JOBNAME}.${i}"
+
+    SEED=$(( RANDOM ))
+
+    # Determine the seed by submission time
+    TRAIN_CMD="nmtpy train -SC `readlink -f ${CONF}` $@ train.seed:$SEED"
+  else
+    SUBJOBNAME="${JOBNAME}"
+    # Let it use the seed from the config
+    TRAIN_CMD="nmtpy train -SC `readlink -f ${CONF}` $@"
+  fi
+
+  $CMD <<EOF
+#!/bin/bash
+#SBATCH -p ${PART}
+#SBATCH --gres ${GPU}
+#SBATCH --mem ${MEM}
+#SBATCH -J ${SUBJOBNAME}
+#SBATCH --time ${TIME}
+##SBATCH --workdir=/scratch/groups/t-skhudan1/lbarrau1/slurm_logs
+#SBATCH --error /dev/null
+#SBATCH --output /dev/null
+
+#cd ${HOME2}/slurm_logs
+source activate nmtpy-dev
+$TRAIN_CMD
+EOF
+
+sleep 2
+done
