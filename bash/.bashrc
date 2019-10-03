@@ -11,13 +11,8 @@ esac
 export SRILM=$HOME/tools/srilm
 
 
-export MACAON_DIR=$HOME/tools/macaon.git/build
-export MACAON_LIB=$HOME/tools/macaon.git/build/lib/libmacaon.so
 
 
-export http_proxy="http://proxy.univ-lemans.fr:3128"
-export https_proxy="http://proxy.univ-lemans.fr:3128"
-export ftp_proxy="http://proxy.univ-lemans.fr:3128"
 
 #export CUDA_ROOT=/opt/cuda-7.5:$CUDA_ROOT
 #export CUDA_ROOT=/opt/cuda-6.5:$CUDA_ROOT
@@ -111,4 +106,15 @@ source activate nmtpy 2> /dev/null
 
 source ~/tools/cluster-rc/bashrc
 source ~/.bash_aliases
+
+if [ -f "~/.lemans" ]; then
+  source ~/.lemans
+elif [ -f "~/.sheffield" ]; then
+  source ~/.sheffield
+fi
+
+
+
+
+
 
