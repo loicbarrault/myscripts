@@ -1,0 +1,30 @@
+
+set meta-flag on
+set input-meta on
+set output-meta on
+set convert-meta off
+set show-all-if-ambiguous on
+set bell-style none
+set print-completions-horizontally off
+
+"A": self-insert
+"B": self-insert
+"C": self-insert
+"D": self-insert
+"E": self-insert
+"F": self-insert
+"G": self-insert
+"H": self-insert
+"I": self-insert
+"J": self-insert
+
+"\C-W": kill-word
+"\C-L": kill-line
+"\C-w": backward-kill-word
+"\C-l": backward-kill-line
+"\C-a": kill-line
+
+"\C-f": forward-word
+"\C-b": backward-word
+
+
