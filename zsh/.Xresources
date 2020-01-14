@@ -1,0 +1,90 @@
+!-------------------------------------------------------------------------------
+! Xft settings
+!-------------------------------------------------------------------------------
+
+Xft.dpi: 96
+Xft.antialias: true
+Xft.rgba: rgb
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+
+!-------------------------------------------------------------------------------
+! URxvt settings
+! Colours lifted from Solarized (http://ethanschoonover.com/solarized)
+! More info at:
+! http://pod.tst.eu/http://cvs.schmorp.de/rxvt-unicode/doc/rxvt.1.pod
+!-------------------------------------------------------------------------------
+
+URxvt.depth: 32
+URxvt.geometry: 90x30
+URxvt.transparent: false
+URxvt.fading: 0
+URxvt.urgentOnBell: true
+URxvt.visualBell: true
+!URxvt.termName: rxvt-256color
+URxvt.termName: rxvt-unicode
+URxvt.loginShell: true
+URxvt.saveLines: 2048
+URxvt.internalBorder: 1
+URxvt.lineSpace: 0
+
+! Fonts
+URxvt.allow_bold: true
+/* URxvt.font: -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1 */
+!URxvt*font: xft:inconsolata:pixelsize=13
+!URxvt*font: xft:Monospace:pixelsize=11.5
+!URxvt*boldFont: xft:Monospace:pixelsize=11.5
+!URxvt*font: xft:Monospace:pixelsize=12
+!URxvt*boldFont: xft:Monospace:pixelsize=12
+!URxvt*font: xft:Inconsolata:pixelsize=14
+!URxvt*boldFont: xft:Inconsolata:pixelsize=14
+URxvt*font: xft:DejaVuSansMonoForPowerline:pixelsize=13
+URxvt*boldFont: xft:DejaVuSansMonoForPowerline:pixelsize=13
+!URxvt*font: xft:InconsolataForPowerline:pixelsize=13.5
+!URxvt*boldFont: xft:InconsolataBoldForPowerline:pixelsize=13.5
+!URxvt*font: xft:Hack:pixelsize=11.5
+!URxvt*boldFont: xft:Hack:pixelsize=11.5
+
+! Fix font space
+! URxvt*letterSpace: -1
+URxvt*letterSpace: -1
+
+! Scrollbar
+URxvt.scrollStyle: rxvt
+URxvt.scrollBar: false
+URxvt.secondaryScroll: false
+
+
+! Perl extensions
+URxvt*perl-lib: /usr/lib/URxvt/perl/
+!URxvt.perl-ext-common: default,matcher,clipboard
+!URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select
+!URxvt.perl-ext-common: default,matcher,searchable-scrollback
+!!URxvt.perl-ext-common: default,matcher,selection-to-clipboard,clipboard,url-select,font-size
+!URxvt.perl-ext-common: default,matcher,clipboard,url-select,keyboard-select,font-size
+!!URxvt.urlLauncher: /usr/bin/firefox-nightly
+!URxvt.url-select.launcher: /usr/bin/xdg-open
+!URxvt.url-select.underline: true
+URxvt.cutchars: `()'*<>[]{|}""'
+URxvt.matcher.button: 1
+
+! Copy/Paste
+!URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+!URxvt.keyboard-select.clipboard: True 
+URxvt.iso14755: False
+
+! Cursor
+URxvt.cursorBlink: false
+URxvt.cursorColor: #657b83
+URxvt.cursorUnderline: false
+
+! Pointer
+URxvt.pointerBlank: true
+
+!! colorschemes
+#include "/home/barrault/.dotfiles/.nord-xresources/src/nord"
+! #include ".config/vim-one-xresources/vim-one_dark"
+! #include ".config/vim-one-xresources/vim-one_light"
+! #include ".config/tender-xresources/src/tender"
+! #include ".config/solarized/xresources-colors-solarized/Xresources"

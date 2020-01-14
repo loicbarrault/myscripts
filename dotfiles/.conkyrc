@@ -1,0 +1,51 @@
+out_to_x no
+own_window no
+out_to_console yes
+background no
+max_text_width 0
+
+# Update interval in seconds
+update_interval 1
+
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+
+# Shortens units to a single character (kiB->k, GiB->G, etc.). Default is off.
+short_units yes
+
+# How strict should if_up be when testing an interface for being up?
+# The value is one of up, link or address, to check for the interface
+# being solely up, being up and having link or being up, having link
+# and an assigned IP address. 
+if_up_strictness address
+
+# Add spaces to keep things from moving about?  This only affects certain objects.
+# use_spacer should have an argument of left, right, or none
+use_spacer left
+
+# Force UTF8? note that UTF8 support required XFT
+override_utf8_locale no
+
+# number of cpu samples to average
+# set to 1 to disable averaging
+cpu_avg_samples 4
+
+# Stuff after 'TEXT' will be formatted on screen
+TEXT
+
+# JSON for i3bar
+
+[
+  {"full_text": " emails  usfd ${new_mails /home/fblain/.mail/sheff/INBOX}, gmx ${new_mails /home/fblain/.mail/gmx/INBOX} ", "color":"\#00A9E5"},
+	{"full_text": " cpu ${cpu cpu0}% (${loadavg}) ", "color":"\#00A9E5"},
+	{"full_text": " ram ${memperc}% ","color": ${if_match ${memperc}<90}"\#00A9E5"${else}"\#ff0000"${endif} },
+  {"full_text": " /home ${fs_free /home} ","color": "\#00A9E5"},
+  {"full_text": " vol ${mpd_vol}% ","color": "\#00A9E5"},
+  {"full_text": " batt ${battery_percent}% ${battery_time}", "color": ${if_match ${battery_percent}>24} "\#74DF00" ${else} ${if_match ${battery_percent}>14} "\#F7D358" ${else} ${if_match ${battery_percent}>9} "\#FF5B2B" ${else} "\#ff0000" ${endif} ${endif} ${endif} },
+  {"full_text": " ${time %a %d %b} ${time %H:%M} ","color": "\#ffffff"}
+]
+,
+
+# {"full_text": "${if_mpd_playing} ♬ \"${mpd_artist} - ${mpd_title}\" ♬ ${endif}", "color":"\#aaaaaa"},
+# {"full_text": "${if_up ens12u2} eth ${addr ens12u2} ${else}${if_up ens12u2u1} eth ${addr ens12u2u1} ${else}${if_up ens12u2u4u3} eth ${addr ens12u2u4u3} ${else}${if_up ens12u1u1} eth ${addr ens12u1u1} ${else} no eth ${endif}${endif}${endif}${endif}${if_up wlp2s0} wifi '${wireless_essid wlp2s0}' ${addr wlp2s0} ${else} no wifi ${endif}", "color":"\#00A9E5"},

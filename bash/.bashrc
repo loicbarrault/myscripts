@@ -101,16 +101,21 @@ alias sd='showd'
 
 export EDITOR='vim'
 
+# Stay in same folder after ssh, yay!
+ssh() {
+  `which ssh` $1 -t "cd `pwd`; $SHELL --login"
+  #command ssh $1 -t "cd `pwd`; $SHELL --login"
+}
 
 source activate nmtpy 2> /dev/null
 
-source ~/tools/cluster-rc/bashrc
-source ~/.bash_aliases
+#source ~/.dotfiles/cluster-rc/bashrc
+source ~/.dotfiles/.bash_aliases
 
-if [ -f "~/.lemans" ]; then
-  source ~/.lemans
-elif [ -f "~/.sheffield" ]; then
-  source ~/.sheffield
+if [ -f "~/.dotfiles/.lemans" ]; then
+  source ~/.dotfiles/.lemans
+elif [ -f "~/.dotfiles/.sheffield" ]; then
+  source ~/.dotfiles/.sheffield
 fi
 
 

@@ -6,15 +6,11 @@ alias ls='ls --color=auto'
 alias ll='ls -lF'
 alias la='ls -A'
 alias l='ls -CF'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias grep='grep --color=always'
+alias fgrep='fgrep --color=always'
+alias egrep='egrep --color=always'
 alias bd='. bd -si'
 
-# Stay in same folder after ssh, yay!
-ssh() {
-  `which ssh` $1 -t "cd `pwd`; $SHELL --login"
-}
 alias news="cd /lium/raid01_a/projets/wmt/2018/news"
 alias mmt="cd /lium/raid01_a/projets/wmt/2018/multimodal"
 alias cag="cd /lium/raid01_a/caglayan"
@@ -28,8 +24,8 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 alias l='ls -l --color'
-alias ll='ls -lrth --color'
-alias llc='ls -lrth --color'
+alias ll='ls -glrth --color'
+alias la='ls -aglrth --color'
 alias lt='ls -lt'
 alias ltm='ls -lt | more'
 
@@ -68,29 +64,6 @@ alias dev='source activate nmtpy-dev'
 
 
 
-# working directories
-alias SB='cd /lium/raid01_a/barrault'
-#alias BO='cd /lium/trad7/bolt/barrault'
-#alias PEA='cd /lium/trad7/pea-trad/barrault'
-#alias NI='cd /lium/trad5b/nist/2015/barrault/zh-en'
-#alias PA='cd /lium/trad8/pacte/barrault'
-#alias MA='cd /lium/trad5a/matecat/barrault'
-#alias IW='cd /lium/trad5a/iwslt/2015/barrault'
-#alias PT='cd /lium/trad5a/data/mt/penntreeb/barrault/lm'
-#alias W12='cd /lium/trad8/french-english/2012/barrault'
-#alias W13='cd /lium/trad8/french-english/2013/'
-
-alias W14='cd /lium/raid01_a/projets/wmt/2014/'
-alias W15='cd /lium/raid01_a/projets/wmt/2015/'
-alias W16='cd /lium/raid01_a/projets/wmt/2016/barrault/'
-alias W17='cd /lium/raid01_a/projets/wmt/2017/news/barrault/'
-alias W18='cd /lium/raid01_a/projets/wmt/2018/'
-alias MM='cd /lium/raid01_a/projets/wmt/2017/multimodal/barrault/'
-
-alias AL='cd /lium/raid01_a/projets/allies/'
-alias JS='cd /lium/raid01_a/barrault/jsalt/'
-alias NC='cd /lium/raid01_a/barrault/nuit_chercheurs/'
-alias AF='cd /lium/raid01_a/barrault/ancien_nouveau_francais'
 
 #MARCC
 alias multiplex='ssh -fNM login-node02.marcc.jhu.edu -l lbarrau1@jhu.edu'

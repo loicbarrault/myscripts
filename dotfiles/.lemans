@@ -1,0 +1,35 @@
+
+export http_proxy="http://proxy.univ-lemans.fr:3128"
+export https_proxy="http://proxy.univ-lemans.fr:3128"
+export ftp_proxy="http://proxy.univ-lemans.fr:3128"
+
+
+
+export MACAON_DIR=$HOME/tools/macaon.git/build
+export MACAON_LIB=$HOME/tools/macaon.git/build/lib/libmacaon.so
+
+# working directories
+alias SB='cd /lium/raid01_a/barrault'
+#alias BO='cd /lium/trad7/bolt/barrault'
+#alias PEA='cd /lium/trad7/pea-trad/barrault'
+#alias NI='cd /lium/trad5b/nist/2015/barrault/zh-en'
+#alias PA='cd /lium/trad8/pacte/barrault'
+#alias MA='cd /lium/trad5a/matecat/barrault'
+#alias IW='cd /lium/trad5a/iwslt/2015/barrault'
+#alias PT='cd /lium/trad5a/data/mt/penntreeb/barrault/lm'
+#alias W12='cd /lium/trad8/french-english/2012/barrault'
+#alias W13='cd /lium/trad8/french-english/2013/'
+
+alias W14='cd /lium/raid01_a/projets/wmt/2014/'
+alias W15='cd /lium/raid01_a/projets/wmt/2015/'
+alias W16='cd /lium/raid01_a/projets/wmt/2016/barrault/'
+alias W17='cd /lium/raid01_a/projets/wmt/2017/news/barrault/'
+alias W18='cd /lium/raid01_a/projets/wmt/2018/'
+alias MM='cd /lium/raid01_a/projets/wmt/2017/multimodal/barrault/'
+
+alias AL='cd /lium/raid01_a/projets/allies/'
+alias JS='cd /lium/raid01_a/barrault/jsalt/'
+alias NC='cd /lium/raid01_a/barrault/nuit_chercheurs/'
+alias AF='cd /lium/raid01_a/barrault/ancien_nouveau_francais'
+
+
