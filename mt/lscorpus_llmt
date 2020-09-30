@@ -1,0 +1,40 @@
+#! /usr/bin/env python3
+
+import os
+from os import listdir
+from os.path import isfile, join
+import re
+from collections import Counter
+import ipdb
+from pprint import pprint
+
+
+files = [f for f in listdir('./') if isfile(join('./', f))]
+
+pyear = re.compile("[^-]*-(....).*")
+
+years = set()
+stats = {}
+for file in files:
+    #print('Processing {}'.format(file))
+    y = pyear.search(file).groups()[0]
+    years.add(y)
+    if y not in stats.keys():
+        #print('#####  New year found {}'.format(y))
+        stats[y] = { 'nd':0 , 'nl':0 , 'nw':0 }
+    stats[y]['nd'] += 1
+    nlines = nwords = 0
+    with open(file, 'r') as fd:
+        for line in fd:
+            line = line.strip("\n")
+            words = line.split()
+            nlines += 1
+            nwords += len(words)
+        stats[y]['nl'] += nlines
+        stats[y]['nw'] += nwords
+
+
+pprint(stats)
+
+
+
