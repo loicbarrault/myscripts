@@ -3,10 +3,10 @@ PS1="[\h] \W > "
 
 
 
-case "$-" in
-   *i*)
-        bind -f ~/.bash_key_bindings
-esac
+#case "$-" in
+#   *i*)
+#        bind -f ~/.bash_key_bindings
+#esac
 
 export SRILM=$HOME/tools/srilm
 
@@ -40,8 +40,8 @@ export LANG=en_US.UTF-8
 export LESSCHARSET=utf-8
 
 #export LS_COLORS=`dircolors -b /lium/buster1/barrault/.ls_colors`
-eval `dircolors $HOME/.ls_colors`
-export LS_OPTIONS="-b --color=auto"
+#eval `dircolors $HOME/.ls_colors`
+#export LS_OPTIONS="-b --color=auto"
 
 
 case "$TERM" in
@@ -107,7 +107,7 @@ ssh() {
   #command ssh $1 -t "cd `pwd`; $SHELL --login"
 }
 
-source activate nmtpy 2> /dev/null
+#source activate nmtpy 2> /dev/null
 
 #source ~/.dotfiles/cluster-rc/bashrc
 source ~/.dotfiles/.bash_aliases
