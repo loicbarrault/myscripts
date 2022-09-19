@@ -17,9 +17,10 @@ cp -R vim ~/.vim
 # cp ./bash/.*  ~/.dotfiles
 
 #ZSH STUFF
-cp zsh/.Xresources ~/
+#cp zsh/.Xresources ~/
+#cp zsh/.zshrc ~/
 
-cp -R i3 ~/
+#cp -R i3 ~/
 
 if [ $# -gt 0 ]; then
   echo "ARG: $1"
