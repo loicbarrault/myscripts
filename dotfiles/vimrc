@@ -1,0 +1,52 @@
+set nocompatible
+filetype plugin indent on
+
+set scrolloff=3
+
+set antialias
+
+
+syntax enable
+set number
+set ruler
+set wrap
+
+set incsearch
+set hlsearch
+
+set background=dark
+set backspace=indent,eol,start
+
+au GUIEnter * set vb t_vb=
+colorscheme solarized
+let g:solarized_termcolors=256
+let g:solarized_termtrans=1
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+set t_Co=256
+
+" reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+	\| exe "normal! g'\"" | endif
+endif
+
+" If doing a diff. Upon writing changes to file, automatically update the differences
+autocmd BufWritePost * if &diff == 1 | diffupdate | endif
+
+set list!
+set listchars=tab:▸\ ,trail:◦,extends:»,precedes:«
+set noeb vb t_vb=
+set nostartofline
+set binary
+
+set ignorecase
+set smartcase
+set hidden
+
+set smarttab
+set autoindent
+
+
+
+

@@ -13,4 +13,6 @@ set background=dark
 " Distinguished
 "color distinguished
 
-color nord
+" color nord
+color solarized
+

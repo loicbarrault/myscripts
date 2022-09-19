@@ -18,6 +18,7 @@ cp -R vim ~/.vim
 
 #ZSH STUFF
 cp zsh/.Xresources ~/
+cp zsh/.zshrc ~/
 
 cp -R i3 ~/
 
