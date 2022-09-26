@@ -9,9 +9,15 @@ cp -R dotfiles ~/.dotfiles
 # VIM STUFF
 if [ -e ~/.vim ]; then
   mv ~/.vim ~/.vim.bckp
-  echo "~/.vim already exist... moved to ~/.vim.bckp"
+  echo "~/.vim already exists... moved to ~/.vim.bckp"
 fi
 cp -R vim ~/.vim
+
+if [ -e ~/.jupyter ]; then
+  mv ~/.jupyter  ~/.jupyter.bckp
+  echo "~/.jupyter already exists... moved to ~/.jupyter.bckp"
+fi
+ln -s ~/.dotfiles/jupyter ~/.jupyter
 
 # BASH STUFF
 cp ./bash/.*  ~/.dotfiles
