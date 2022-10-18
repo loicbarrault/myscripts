@@ -27,6 +27,8 @@ cp ./bash/.*  ~/.dotfiles
 
 #cp -R i3 ~/
 
+cp -R bin ~/
+
 if [ $# -gt 0 ]; then
   echo "ARG: $1"
   ln -s $CWD/bash/.$1 ~/.$1
