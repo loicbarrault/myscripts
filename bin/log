@@ -1,0 +1,103 @@
+#! /usr/bin/env python
+
+import argparse
+import re
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-ts", "--timestamp", action='store_true', required=False)
+    parser.add_argument("-ne", "--no-epoch", action='store_false', dest='epoch', required=False)
+    parser.add_argument("-u", "--update", action='store_true', required=False)
+    parser.add_argument("-nl", "--no-loss", action='store_false', dest='loss', required=False)
+    parser.add_argument("-n", "--nll_loss", action='store_true', required=False)
+    parser.add_argument("-p", "--ppl", action='store_true', required=False)
+    parser.add_argument("-w", "--wps", action='store_true', required=False)
+    parser.add_argument("--ups", action='store_true', required=False)
+    parser.add_argument("--wpb", action='store_true', required=False)
+    parser.add_argument("-b", "--bsz", action='store_true', required=False)
+    parser.add_argument("-nu", action='store_true', required=False)
+    parser.add_argument("-lr", action='store_true', required=False)
+    parser.add_argument("-g", "--gnorm", action='store_true', required=False)
+    parser.add_argument("-ls", "--loss_scale", action='store_true', required=False)
+    parser.add_argument("-t", "--train_wall", action='store_true', required=False)
+    parser.add_argument("-cga", "--cuda-gb-allocated", action='store_true', required=False)
+    parser.add_argument("-cgr", "--cuda-gb-reserved", action='store_true', required=False)
+    parser.add_argument("-cgf", "--cuda-gb-free", action='store_true', required=False)
+    parser.add_argument("-wa", "--wall", action='store_true', required=False)
+    parser.add_argument('logs', nargs=argparse.REMAINDER, help='Log files to look into')
+    args = parser.parse_args()
+
+    print(args)
+
+    inner_pat = re.compile('train_inner')
+    #parse_all_pat = re.compile('(?P<timestamp>.*).*{"epoch": (?P<epoch>\d+), "update": (?P<update>[-+]?\d*\.*\d+), "loss": "(?P<loss>[-+]?\d*\.*\d+)", "nll_loss": "(?P<nll>[-+]?\d*\.*\d+)", "ppl": "(?P<ppl>[-+]?\d*\.*\d+)", "wps": "(?P<wps>[-+]?\d*\.*\d+)", "ups": "(?P<ups>[-+]?\d*\.*\d+)", "wpb": "(?P<wpb>[-+]?\d*\.*\d+)", "bsz": "(?P<bsz>[-+]?\d*\.*\d+)", "num_updates": "(?P<num_updates>\d+)", "lr": "(?P<lr>[-+]?\d*\.*\d+)", "gnorm": "(?P<gnorm>[-+]?\d*\.*\d+)", "loss_scale": "(?P<loss_scale>[-+]?\d*\.*\d+)", "train_wall": "(?P<train_wall>[-+]?\d*\.*\d+)", "cuda_gb_allocated": "(?P<cgb>[-+]?\d*\.*\d+)", "cuda_gb_reserved": "(?P<cgr>[-+]?\d*\.*\d+)", "cuda_gb_free": "(?P<cgf>[-+]?\d*\.*\d+)", "wall": "(?P<wall>[-+]?\d*\.*\d+)"}')
+
+    fpat = r"[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?"
+    pat = f'"epoch": (?P<epoch>\d+), "update": (?P<update>{fpat}),\
+ "loss": "(?P<loss>{fpat})", "nll_loss": "(?P<nll>{fpat})", "ppl": "(?P<ppl>{fpat})",\
+ "wps": "(?P<wps>{fpat})", "ups": "(?P<ups>{fpat})", "wpb": "(?P<wpb>{fpat})",\
+ "bsz": "(?P<bsz>{fpat})", "num_updates": "(?P<num_updates>\d+)", "lr": "(?P<lr>{fpat})",\
+ "gnorm": "(?P<gnorm>{fpat})", "loss_scale": "(?P<loss_scale>\d+)", "train_wall": "(?P<train_wall>\d+)",\
+ "cuda_gb_allocated": "(?P<cga>{fpat})", "cuda_gb_reserved": "(?P<cgr>{fpat})",\
+ "cuda_gb_free": "(?P<cgf>{fpat})", "wall": "(?P<wall>{fpat})"'
+
+    parse_all_pat = re.compile('(?P<timestamp>[^|]+).*{'+pat+'}')
+
+    # data = {}
+    # from tabulate import tabulate
+    # print(tabulate([['Alice', 24], ['Bob', 19]], headers=['Name', 'Age']))
+
+    for log in args.logs:
+        print(f'{log}')
+        with open(log, 'r') as logf:
+            for l in logf:
+                l = l.strip()
+                if re.search(inner_pat, l):
+                    # print(f"MATCH: {l}")
+                    match = re.search(parse_all_pat, l)
+                    # print("GROUPS", match.groups())
+                    # print()
+                    if args.timestamp:
+                        print(f"{match.group('timestamp')}", end=' ')
+                    if args.epoch:
+                        print(f"{match.group('epoch')}", end=' ')
+                    if args.update:
+                        print(f"{match.group('update')}", end=' ')
+                    if args.loss:
+                        print(f"{match.group('loss')}", end=' ')
+                    if args.nll_loss:
+                        print(f"{match.group('nll')}", end=' ')
+                    if args.ppl:
+                        print(f"{match.group('ppl')}", end=' ')
+                    if args.wps:
+                        print(f"{match.group('wps')}", end=' ')
+                    if args.ups:
+                        print(f"{match.group('ups')}", end=' ')
+                    if args.wpb:
+                        print(f"{match.group('wpb')}", end=' ')
+                    if args.bsz:
+                        print(f"{match.group('bsz')}", end=' ')
+                    if args.nu:
+                        print(f"{match.group('num_updates')}", end=' ')
+                    if args.lr:
+                        print(f"{match.group('lr')}", end=' ')
+                    if args.gnorm:
+                        print(f"{match.group('gnorm')}", end=' ')
+                    if args.loss_scale:
+                        print(f"{match.group('loss_scale')}", end=' ')
+                    if args.train_wall:
+                        print(f"{match.group('train_wall')}", end=' ')
+                    if args.cuda_gb_allocated:
+                        print(f"{match.group('cga')}", end=' ')
+                    if args.cuda_gb_reserved:
+                        print(f"{match.group('cgr')}", end=' ')
+                    if args.cuda_gb_free:
+                        print(f"{match.group('cgf')}", end=' ')
+                    if args.wall:
+                        print(f"{match.group('wall')}", end=' ')
+                    print()
+
+
+
+
+

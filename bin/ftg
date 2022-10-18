@@ -1,0 +1,22 @@
+#! /usr/bin/bash
+
+g=$1
+shift
+
+n=''
+
+i=1
+for f in $*
+do
+    if [[ $f == -n* ]]; then
+        n=$f
+        set -- "${@:1:i-1}" "${@:i+1}"
+    fi
+    ((i+=1))
+done
+
+for f in $*
+do
+    echo "---- $f"
+    grep "$g" $f | tail $n
+done

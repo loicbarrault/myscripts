@@ -1,0 +1,9 @@
+#! /usr/bin/bash
+
+if [[ $# -lt 2 ]]; then
+    find . -iname \*$1
+else
+    find . -iname \*$1 -exec grep -l "$2" {} \;
+fi
+
+
