@@ -1,48 +1,48 @@
+#!/bin/bash
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
 
-PS1="[\h] \W > "
-
-DF='/private/home/loicbarrault/.dotfiles'
-
-case "$-" in
-   *i*)
-        bind -f ${DF}/bash_key_bindings
-esac
-
-
-
-
-#export CUDA_ROOT=/opt/cuda-7.5:$CUDA_ROOT
-#export CUDA_ROOT=/opt/cuda-6.5:$CUDA_ROOT
-if [ -d "/usr/local/cuda-8.0" ]; then
-  export CUDA_ROOT=/usr/local/cuda-8.0
-elif [ -d "/opt/cuda-7.5" ]; then
-  export CUDA_ROOT=/opt/cuda-7.5
-else
-  export CUDA_ROOT=/opt/cuda-6.5
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
 fi
 
-# LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=/usr/lib64:/lib:$LD_LIBRAY_PATH
-#export LD_LIBRARY_PATH=/opt/intel/lib/intel64/:/opt/intel/cc/9.1.042/lib:/opt/intel/Compiler/11.1/046/lib/intel64/:/opt/intel/Compiler/11.1/046/mkl/lib/em64t:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=$CUDA_ROOT/lib64:/opt/CUDNN/cudnn-v5.1/lib64:$LD_LIBRARY_PATH
-
-#export LIBRARY_PATH=/opt/CUDNN/cudnn-v5.1/lib64:$LIBRARY_PATH
-#export CPATH=/opt/CUDNN/cudnn-v5.1/include:$CPATH
-#export MKL_ROOT=/opt/intel/composer_xe_2013_sp1.2.144
-
-#export PATH=$CUDA_ROOT/bin:$HOME/tools/srilm_1.7.0/bin/i686-m64/:/usr/local/jdk1.6.0_10/jre/bin/:/usr/local/maui/bin:$HOME/bin:$HOME/bin/linux:$HOME/bin/mt:$HOME/src/mt-scripts:$HOME/scripts:$PATH
-
-#export LANG=C sort
-export LANG=en_US.UTF-8
-export LESSCHARSET=utf-8
-
-#export LS_COLORS=`dircolors -b /lium/buster1/barrault/.ls_colors`
-#eval `dircolors $DF/ls_colors`
-#eval `dircolors $DF/solarized_dark_colors`
-eval `dircolors $DF/solarized_universal_colors`
-export LS_OPTIONS="-b --color=auto"
-
+export SHELL=/bin/bash
 export TERM=screen-256color
+
+function get_hostname {
+  export SHORTNAME=${HOSTNAME%%.*}
+}
+
+function git_branch() { 
+  gitbranch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'); 
+}
+
+function user_color {
+  id | grep "root" > /dev/null
+  RETVAL=$?
+  if [[ $RETVAL == 0 ]]; then
+    usercolor="[0;31m";
+  else
+    usercolor="[0;32m";
+  fi
+}
+
+function settitle() {
+  u=${USERNAME}
+  h="$u@${HOSTNAME}"
+  echo -ne "\e]2;$h\a\e]1;$h\a";
+}
+
+# Set prompt and window title
+inputcolor='[0;37m'
+cwdcolor='[0;34m'
+host_name='[1;31m'
+branchcolor='[0;36m'
+user_color
+PROMPT_COMMAND='settitle; git_branch; get_hostname; history -a;'
+PS1='\[\e${cwdcolor}\][${PWD}]\[\e${branchcolor}\]${gitbranch}\n\[\e${usercolor}\][\u]\[\e${host_name}\][${SHORTNAME}]\[\e${inputcolor}\] $ '
+export PS1
 
 HISTCONTROL=ignoreboth
 

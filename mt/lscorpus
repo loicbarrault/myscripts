@@ -7,18 +7,26 @@ if __name__ == '__main__':
     char_len = 0
     word_lens = []
     words = []
-
+    longest_len = -1
+    shortest_len = 1000000
     with open(sys.argv[1], 'r') as f:
         for line in f:
             line = line.strip()
             char_len += len(line)
             wrds = line.split(' ')
             words.extend(wrds)
-            word_lens.append(len(wrds))
+            sent_len = len(wrds)
+            word_lens.append(sent_len)
+            if sent_len > longest_len:
+                longest_len = sent_len
+            elif sent_len < shortest_len:
+                shortest_len = sent_len
 
     n_sents = len(word_lens)
 
     print('Number of sentences: %d' % n_sents)
+    print('Longest sentence length: %d' % longest_len)
+    print('Shortest sentence length: %d' % shortest_len)
     print('Average # of words: %d' % (sum(word_lens) // n_sents))
     print('Average # of chars: %d' % (char_len // n_sents))
     
